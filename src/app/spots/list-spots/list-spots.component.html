@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <h3 class="col-12 text-center">Espacios</h3>
+
+    <div class="offset-1 col-10 row mt-5">
+      <div class="col-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Tipos de espacios</mat-label>
+          <mat-select [formControl]="spotTypeControl">
+            <mat-option *ngFor="let spotType of spotsTypesOptions" [value]="spotType">
+              {{ spotType.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary" routerLink="/spots/create">Agregar un espacio</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <mat-progress-spinner class="offset-1" *ngIf="isProcessing"
+                          [color]="'primary'" [mode]="'indeterminate'" [value]="50"></mat-progress-spinner>
+    <table *ngIf="!isProcessing"
+           class="offset-1 col-10 mt-5"
+           mat-table [dataSource]="spots">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let spot; let i = index"> {{ i + 1 }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="spot_type">
+        <th mat-header-cell *matHeaderCellDef> Spot type </th>
+        <td mat-cell *matCellDef="let spot"> {{ spot.spot_type.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let spot"> {{ spot.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let spot">
+          <img class="spot-img" [src]="spot.image" [alt]="spot.name">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let spot"> {{ spot.street }} {{ spot.number }}, C.P. {{ spot.zip_code }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Created at </th>
+        <td mat-cell *matCellDef="let spot"> {{ spot.created_at | date:'fullDate' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let spot">
+          <button class="btn btn-danger" (click)="deleteSpot(spot.id)">Eliminar</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let spot">
+          <a class="btn btn-primary" [routerLink]="['edit', spot.id]">Editar</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsTable"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: columnsTable"></tr>
+
+    </table>
+  </div>
+</div>

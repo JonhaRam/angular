@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="row mt-5">
+    <h3 class="col-12 text-center">Registrar un nuevo espacio</h3>
+
+    <form class="offset-1 col-10 row mt-5" [formGroup]="newSpotForm">
+
+      <div class="form-group col-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo de espacio</mat-label>
+          <mat-select [formControl]="newSpotForm.get('spotType')" required>
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let spotType of spotsTypesOptions" [value]="spotType">
+              {{ spotType.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="newSpotForm.get('spotType').hasError('required')">Selecciona un tipo de espacio</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="spotName">Nombre</label>
+        <input class="form-control" type="text"
+               id="spotName" required
+               placeholder="Plaza Lindavista, Parque delta, ..."
+               formControlName="name">
+        <div class="alert-danger" *ngIf="newSpotForm.get('name').invalid && (newSpotForm.get('name').dirty || newSpotForm.get('name').touched)">
+          Ingresa un nombre válido
+        </div>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="spotImage">Imagen</label>
+        <input class="form-control" type="text"
+               id="spotImage" required
+               placeholder="https://miimagen.com"
+               formControlName="image">
+        <div class="alert-danger" *ngIf="newSpotForm.get('image').invalid && (newSpotForm.get('image').dirty || newSpotForm.get('image').touched)">
+          Ingresa la url de una imagen
+        </div>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="spotStreet">Calle</label>
+        <input class="form-control" type="text"
+               id="spotStreet" required
+               placeholder="Av. Ejercito Nacional"
+               formControlName="street">
+        <div class="alert-danger" *ngIf="newSpotForm.get('street').invalid && (newSpotForm.get('street').dirty || newSpotForm.get('street').touched)">
+          Ingresa el nombre de una calle o avenida
+        </div>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="spotNumber">Número</label>
+        <input class="form-control" type="text"
+               id="spotNumber" required
+               placeholder="122 A"
+               formControlName="number">
+        <div class="alert-danger" *ngIf="newSpotForm.get('number').invalid && (newSpotForm.get('number').dirty || newSpotForm.get('number').touched)">
+          Ingresa el número del lugar
+        </div>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="spotZipCode">Código postal</label>
+        <input class="form-control" type="text"
+               id="spotZipCode" required maxlength="5"
+               placeholder="07600"
+               formControlName="zipCode">
+        <div class="alert-danger" *ngIf="newSpotForm.get('zipCode').invalid && (newSpotForm.get('zipCode').dirty || newSpotForm.get('zipCode').touched)">
+          Ingresa un código postal válido
+        </div>
+      </div>
+
+      <div class="form-group col-6 row">
+        <div class="col-6">
+          <label for="spotLatitude">Latitud</label>
+          <input class="form-control" type="number"
+                 id="spotLatitude" required
+                 placeholder="-99.472933"
+                 formControlName="lat">
+          <div class="alert-danger" *ngIf="newSpotForm.get('lat').invalid && (newSpotForm.get('lat').dirty || newSpotForm.get('lat').touched)">
+            Ingresa la latitud del lugar
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="spotLongitude">Longitud</label>
+          <input class="form-control" type="number"
+                 id="spotLongitude" required
+                 placeholder="19.472933"
+                 formControlName="lng">
+          <div class="alert-danger" *ngIf="newSpotForm.get('lng').invalid && (newSpotForm.get('lng').dirty || newSpotForm.get('lng').touched)">
+            Ingresa la longitud del lugar
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="isProcessing">
+        <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'" [value]="50"></mat-progress-spinner>
+      </div>
+
+      <div class="form-group m-3">
+        <button class="btn btn-danger" (click)="cancel()" [disabled]="isProcessing">Cancelar</button>
+        <button class="btn btn-primary ml-5" (click)="save()" [disabled]="isProcessing || newSpotForm.invalid">Guardar</button>
+      </div>
+    </form>
+
+  </div>
+</div>

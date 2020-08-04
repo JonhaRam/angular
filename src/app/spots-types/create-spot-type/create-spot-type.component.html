@@ -1,0 +1,23 @@
+<h3 class="text-center mt-5">Registra un tipo de espacio</h3>
+<div class="row mt-5">
+  <form class="offset-1 col-10">
+    <div class="form-group">
+      <label for="nameInput">Nombre</label>
+      <input class="form-control" type="text"
+             id="nameInput"
+             required
+             placeholder="Parque, Plaza comercial, ..."
+             [formControl]="nameControl">
+      <div class="alert-danger" *ngIf="nameControl.invalid && (nameControl.dirty || nameControl.touched)">
+        Ingresa un nombre válido
+      </div>
+    </div>
+    <div class="form-group" *ngIf="isProcessing">
+      <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'" [value]="50"></mat-progress-spinner>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-danger" (click)="cancel()" [disabled]="isProcessing || nameControl.pristine">Cancelar</button>
+      <button class="btn btn-primary ml-5" (click)="save()" [disabled]="isProcessing || nameControl.pristine || nameControl.invalid">Guardar</button>
+    </div>
+  </form>
+</div>

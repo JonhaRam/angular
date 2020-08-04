@@ -1,0 +1,38 @@
+<h3 class="text-center mt-5">Tipos de espacios</h3>
+<div class="row">
+  <mat-progress-spinner *ngIf="isProcessing"
+                        [color]="'primary'" [mode]="'indeterminate'" [value]="50"></mat-progress-spinner>
+
+  <table *ngIf="!isProcessing"
+         class="offset-1 col-10"
+         mat-table [dataSource]="spotsTypes">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let spotType; let i = index"> {{ i + 1 }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let spotType"> {{ spotType.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let spotType">
+        <button class="btn btn-danger" (click)="deleteSpotType(spotType.id)">Eliminar</button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let spotType">
+        <a class="btn btn-primary" [routerLink]="['edit', spotType.id]">Editar</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsTable"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsTable"></tr>
+
+  </table>
+</div>
